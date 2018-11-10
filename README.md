@@ -4,11 +4,13 @@ Vim plugin for not many (hence tiny) but useful convenience functionalities when
 ## Installation
 
 Your best bet is to use some plugin manager like [Vundle](https://github.com/VundleVim/Vundle.vim) or [vim-plug](https://github.com/junegunn/vim-plug).
+
 Example for Vundle: Add `Plugin 'wyv3rn/vim-tinycpp'` to your `.vimrc`.
 
 ## Current features
 
-See `help tinycpp` for more info on usage.
+See `:help tinycpp` for more info on usage.
+TLDR: Use it by invoking commands (`Tc...`); freely map those to your desire.
 
 * Add include guard to current buffer (`:TcIncGuard`)
 
