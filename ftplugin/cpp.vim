@@ -9,6 +9,7 @@ endif
 
 let s:plugin_root_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
+" setup python
 python << EOF
 import sys
 from os.path import normpath, join
@@ -19,10 +20,16 @@ sys.path.insert(0, python_root_dir)
 import tinycpp as cpp
 EOF
 
+" function for inserting include guard
 function! TcIncGuard()
     python cpp.insert_include_guard()
 endfunction
-
 command! -nargs=0 TcIncGuard call TcIncGuard()
+
+" function for switching between header and source file
+function! TcSwitchHS()
+    python cpp.switch_hs()
+endfunction
+command! -nargs=0 TcSwitchHS call TcSwitchHS()
 
 let g:tinycpp_plugin_loaded = 1

@@ -15,6 +15,7 @@ See `:help tinycpp` for more info on usage.
 TLDR: Use it by invoking commands (`:Tc...`); freely map those to your desire.
 
 * Add include guard to current buffer (`:TcIncGuard`)
+* Switch between header and source file (`:TcSwitchHS`)
 
 Wow, that's really tiny ... (but hopefully some more functionalities will follow, see below)
 
