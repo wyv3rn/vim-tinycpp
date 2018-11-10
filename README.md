@@ -3,11 +3,13 @@ Vim plugin for not many (hence tiny) but useful convenience functionalities when
 
 ## Installation
 
+
 Your best bet is to use some plugin manager like [Vundle](https://github.com/VundleVim/Vundle.vim) or [vim-plug](https://github.com/junegunn/vim-plug).
 
 Example for Vundle: Add `Plugin 'wyv3rn/vim-tinycpp'` to your `vimrc`.
 
 As the plugin is only loaded for the `cpp` filetype, you have to enable the filetype plugin, e.g. by inserting `filetype plugin on` in your `vimrc`.
+Furthermore, your Vim must be compiled with Python support.
 
 ## Current features
 
@@ -23,4 +25,5 @@ Wow, that's really tiny ... (but hopefully some more functionalities will follow
 
 * Generate (empty) function/method definition based on declaration
 * Refactor function/method signature: If you changed the signature in one of declaration/definition, tinycpp should help you adopting the other
+* For a "combined" function/method declaration and definition: move definition to source file (and maybe the opposite, i.e. merge definition with declaration)
 
