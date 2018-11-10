@@ -1,0 +1,48 @@
+*tinycpp.txt*         Plugin for not much (hence tiny) C++ stuff           *tinycpp*
+
+                                 TinyCPP Manual
+
+Author: David Schatz
+License: MIT License
+
+================================================================================
+CONTENTS                                                          *TinyCPPContent*
+
+    1. About ................ |TinyCPPAbout|
+    2. Usage ................ |TinyCPPUsage|
+    3. Credits .............. |TinyCPPCredits|
+
+================================================================================
+Section 1: About                                                    *TinyCPPAbout*
+
+I wrote this plugin to support some (me) with some common tasks
+during C++ development with vim, so why not share it?
+
+More info on github: https://github.com/wyv3rn/vim-tinycpp
+
+
+================================================================================
+Section 2: Usage                                                    *TinyCPPUsage*
+
+TinyCPP is used by invoking commands that are prefixed with "Tc". It's up to the
+user to map them if so desired.
+
+Currently supported commands (and thus overall features) are:
+
+:TcIncGuard                                                           *TcIncGuard*
+Inserts an include guard (#ifndef) for the current buffer (expecting it to be a
+C++ header file) in new lines below the cursor position. The name of the guard
+is constructed as in the following examples:
+    Test.hpp -> TEST_HPP
+    Test.h   -> TEST_H
+
+================================================================================
+Section 3: Credits                                                *TinyCPPCredits*
+
+Thanks to Tim Candid for his short but very helpful tutorial on writing a simple
+vim plugin based on python:
+http://candidtim.github.io/vim/2017/08/11/write-vim-plugin-in-python.html
+
+Thanks to Steve Losh for his book "Learn Vimscript the hard way", which among
+other useful information suggests to include a credits section in this file :)
+http://learnvimscriptthehardway.stevelosh.com/
