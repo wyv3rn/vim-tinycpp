@@ -1,19 +1,19 @@
 *tinycpp.txt*         Plugin for not much (hence tiny) C++ stuff           *tinycpp*
 
-                                 TinyCPP Manual
+                                 TinyC++ Manual
 
 Author: David Schatz
 License: MIT License
 
 ================================================================================
-CONTENTS                                                          *TinyCPPContent*
+CONTENTS                                                          *TinyCppContent*
 
-    1. About ................ |TinyCPPAbout|
-    2. Usage ................ |TinyCPPUsage|
-    3. Credits .............. |TinyCPPCredits|
+    1. About ................ |TinyCppAbout|
+    2. Usage ................ |TinyCppUsage|
+    3. Credits .............. |TinyCppCredits|
 
 ================================================================================
-Section 1: About                                                    *TinyCPPAbout*
+Section 1: About                                                    *TinyCppAbout*
 
 I wrote this plugin to support some (me) with some common tasks
 during C++ development with vim, so why not share it?
@@ -22,9 +22,9 @@ More info on github: https://github.com/wyv3rn/vim-tinycpp
 
 
 ================================================================================
-Section 2: Usage                                                    *TinyCPPUsage*
+Section 2: Usage                                                    *TinyCppUsage*
 
-TinyCPP is used by invoking commands that are prefixed with "Tc". It's up to the
+TinyC++ is used by invoking commands that are prefixed with "Tc". It's up to the
 user to map them if so desired.
 
 Currently supported commands (and thus overall features) are:
@@ -49,7 +49,7 @@ Example:
     Invoking in Test.cpp will switch to Test.hpp or Test.h (in this order)
 
 ================================================================================
-Section 3: Credits                                                *TinyCPPCredits*
+Section 3: Credits                                                *TinyCppCredits*
 
 Thanks to Tim Candid for his short but very helpful tutorial on writing a simple
 vim plugin based on python:

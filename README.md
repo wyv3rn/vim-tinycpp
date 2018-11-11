@@ -1,8 +1,8 @@
 # vim-tinycpp
-Vim plugin for not many (hence tiny) but useful convenience functionalities when developing C++
+TinyC++ is a Vim plugin for not many (hence tiny) but useful convenience functionalities when developing C++
+Other plugins I personally use in this context are [YouCompleteMe](https://github.com/Valloric/YouCompleteMe) and [UltiSnips](https://github.com/SirVer/ultisnips).
 
 ## Installation
-
 
 Your best bet is to use some plugin manager like [Vundle](https://github.com/VundleVim/Vundle.vim) or [vim-plug](https://github.com/junegunn/vim-plug).
 
