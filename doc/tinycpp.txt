@@ -5,6 +5,7 @@
 Author: David Schatz
 License: MIT License
 
+
 ================================================================================
 CONTENTS                                                          *TinyCppContent*
 
@@ -12,11 +13,12 @@ CONTENTS                                                          *TinyCppConten
     2. Usage ................ |TinyCppUsage|
     3. Credits .............. |TinyCppCredits|
 
+
 ================================================================================
 Section 1: About                                                    *TinyCppAbout*
 
-I wrote this plugin to support some (me) with some common tasks
-during C++ development with vim, so why not share it?
+I wrote this plugin to support (me) with some common tasks during C++ development.
+Some of the functionalities may actually be provided by some other plugins as well.
 
 More info on github: https://github.com/wyv3rn/vim-tinycpp
 
@@ -31,11 +33,11 @@ Currently supported commands (and thus overall features) are:
 
 --------------------------------------------------------------------------------
 :TcIncGuard                                                           *TcIncGuard*
-Inserts an include guard (#ifndef) for the current buffer in new lines below the
-current cursor position. The name of the guard is constructed as in the
-following examples:
-    Test.hpp -> TEST_HPP
-    Test.h   -> TEST_H
+Inserts an include guard (#ifndef) for the current buffer in new lines at the
+current cursor position (or below if the line is not empty). The name of the
+guard is constructed as in the following examples:
+    Test.hpp    -> TEST_HPP
+    TestCamel.h -> TESTCAMEL_H
 
 --------------------------------------------------------------------------------
 :TcSwitchHS                                                           *TcSwitchHS*
@@ -46,7 +48,18 @@ will be opened instead.
 
 Example:
     Invoking in Test.hpp will switch to Test.cpp
-    Invoking in Test.cpp will switch to Test.hpp or Test.h (in this order)
+    Invoking in Test.cpp will switch to Test.hpp or Test.h (in this precedence)
+
+--------------------------------------------------------------------------------
+:TcCreateDef                                                         *TcCreateDef*
+Creates the definition for the function/method in the current line and inserts
+it at the end of the source file. Only works if the definition is a one-liner.
+
+Example:
+    Invoking on line "virtual void fun(int a) const override;" in class Test
+    (in Test.hpp) will create the following line at the end of Test.cpp:
+    "void Test::fun(int a) {}", with the cursor at the end of the new line.
+
 
 ================================================================================
 Section 3: Credits                                                *TinyCppCredits*
@@ -57,4 +70,4 @@ http://candidtim.github.io/vim/2017/08/11/write-vim-plugin-in-python.html
 
 Thanks to Steve Losh for his book "Learn Vimscript the hard way", which among
 other useful information suggests to include a credits section in this file :)
-http://learnvimscriptthehardway.stevelosh.com/
+http://learnvimscriptthehardway.stevelosh.com

@@ -32,4 +32,10 @@ function! TcSwitchHS()
 endfunction
 command! -nargs=0 TcSwitchHS call TcSwitchHS()
 
+" function for creating definition of function/method in source file
+function! TcCreateDef()
+    python cpp.create_definition()
+endfunction
+command! -nargs=0 TcCreateDef call TcCreateDef()
+
 let g:tinycpp_plugin_loaded = 1
