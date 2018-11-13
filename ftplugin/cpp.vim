@@ -38,4 +38,11 @@ function! TcCreateDef()
 endfunction
 command! -nargs=0 TcCreateDef call TcCreateDef()
 
+" function for creating definition of function/method in source file
+function! TcMoveDef()
+    python cpp.move_definition()
+endfunction
+command! -nargs=0 TcMoveDef call TcMoveDef()
+
 let g:tinycpp_plugin_loaded = 1
+

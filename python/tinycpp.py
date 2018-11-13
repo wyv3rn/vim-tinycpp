@@ -14,14 +14,51 @@ def get_current_context():
 # check if the current line in inside a class/struct definition and return its name (None otherwise)
 def get_class_name():
     buf, row, _ = get_current_context()
-    buf_string = ' '.join([line for line in buf])
-    current_line = buf[row - 1]
-    search_string = r'(class|struct) (?P<cname>\w+)[^{{}}]*{{.*{}.*}}'.format(re.escape(current_line))
-    match = re.search(search_string, buf_string)
-    if match:
-        return match.group('cname')
-    else:
-        return None
+    brace_count = 0
+    i = row - 1
+    while i >= 0:
+        brace_count += buf[i].count('{')
+        brace_count -= buf[i].count('}')
+        if brace_count == 1:
+            # seems like we found the beginning of our block -> search non empty line before it
+            class_def_line = buf[i].replace('{', '')
+            while not class_def_line.strip() and i > 0:
+                i -= 1
+                class_def_line = buf[i]
+            match = re.search(r'(class|struct)\s+(?P<cname>\w+)', class_def_line)
+            if match:
+                return match.group('cname')
+            else:
+                # seems like our block was not a class def after all
+                return None
+        i -= 1
+    return None
+
+# from the current position, return next { ... } block as well as its start and end index
+# None, -1, -1 if no block is found
+def get_next_block():
+    buf, row, _ = get_current_context()
+    block = []
+    i = row - 1
+    brace_count = 0
+    start = -1
+    while i < len(buf):
+        current_line = buf[i]
+        if current_line.count('{') == 1:
+            start = i
+            current_line = current_line[current_line.find('{'):]
+            if current_line.count('}') == 1:
+            # inline block
+                return [current_line], i, i
+        if start != -1:
+            block.append(current_line)
+            brace_count += buf[i].count('{')
+            brace_count -= buf[i].count('}')
+        if start != -1 and brace_count == 0:
+            return block, start, i
+        i += 1
+    return None, -1, -1
+
 
 # return the position (index) where a function/method name begins in line
 # (None if no function/method name is found)
@@ -80,3 +117,29 @@ def create_definition():
     row = len(buf)
     col = len(buf[row - 1]) - 1
     vim.current.window.cursor = (row, col)
+
+# TODO WIP, undo everything at once?
+def move_definition():
+    buf, row, _ = get_current_context()
+    ext = os.path.splitext(buf.name)[1]
+    block, start, end = get_next_block()
+    if block is None:
+        eprint('No block found to move')
+        return
+
+    brace_pos = buf[start].find('{')
+    delete_start = start
+    if(brace_pos != 0):
+        buf[start] = buf[start][:brace_pos].rstrip() + ';'
+        delete_start += 1
+
+    del buf[delete_start:end+1]
+    insert_len = end - start + 1
+    insert_row = len(buf)
+    buf.append(block)
+    vim.command(str(insert_row + 1))
+    vim.command('normal! V | {}j | = | \<ESC>'.format(insert_len - 1))
+    vim.command(str(insert_row + 1))
+
+#  if ext in ['.cc', '.cpp']:
+    # move definition from source to header
