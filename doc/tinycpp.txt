@@ -44,11 +44,11 @@ guard is constructed as in the following examples:
 Switches between header and source file. Note that this simply works based on
 filenames, i.e. name of header and source file must match and be in the same
 directory. If the file to switch to does not exists in the directory, a new file
-will be opened instead.
+will be opened instead (using '.cpp' and '.hpp' extensions).
 
 Example:
-    Invoking in Test.hpp will switch to Test.cpp
-    Invoking in Test.cpp will switch to Test.hpp or Test.h (in this precedence)
+    Invoking in Test.hpp will switch to Test.cpp or Test.cc
+    Invoking in Test.cpp will switch to Test.hpp or Test.h
 
 --------------------------------------------------------------------------------
 :TcCreateDef                                                         *TcCreateDef*
@@ -60,6 +60,17 @@ Example:
     (in Test.hpp) will create the following line at the end of Test.cpp:
     "void Test::fun(int a) {}", with the cursor at the end of the new line.
 
+--------------------------------------------------------------------------------
+:TcMoveDef                                                             *TcMoveDef*
+If cursor placed on the signature line (one-liner) of a combined declaration/
+definition, the command will cut the implementation block, insert the definition
+in the source file like :TcCreateDef and paste the implemantation.
+
+Example:
+    Invoking on line "virtual void fun(int a) const override {}" in class Test
+    (in Test.hpp) will create the following line at the end of Test.cpp:
+    "void Test::fun(int a) {}", and at the same time delete the '{}' from
+    Test.h
 
 ================================================================================
 Section 3: Credits                                                *TinyCppCredits*

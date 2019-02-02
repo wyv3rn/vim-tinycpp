@@ -20,11 +20,12 @@ TLDR: Use it by invoking commands (`:Tc...`); freely map those to your desire.
 * Add include guard to current buffer (`:TcIncGuard`)
 * Switch between header and source file (`:TcSwitchHS`)
 * Create definition for function/method declaration in source file (`:TcCreateDef`)
+* Move definition for function/method declaration from header to source file (`:TcMoveDef`)
 
 Wow, that's really tiny ... (but hopefully some more functionalities will follow, see below)
 
 ## Planned features
 
 * Refactor function/method signature: If you changed the signature in one of declaration/definition, tinycpp should help you adopting the other
-* For a "combined" function/method declaration and definition: move definition to source file (and maybe the opposite, i.e. merge definition with declaration)
+* (very low priority) move function/method definition from source file back to header
 

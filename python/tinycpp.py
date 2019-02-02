@@ -59,7 +59,6 @@ def get_next_block():
         i += 1
     return None, -1, -1
 
-
 # return the position (index) where a function/method name begins in line
 # (None if no function/method name is found)
 def get_func_name_pos(line):
@@ -78,15 +77,19 @@ def insert_include_guard():
     if len(current_line.strip()) == 0:
         del buf[row - 1]
         row -= 1
-    new_lines = ['#ifndef {}'.format(guard), '#define {}'.format(guard), '', '#endif // {}'.format(guard)]
+    new_lines = ['#ifndef {}'.format(guard), '#define {}'.format(guard), '', '', '', '#endif // {}'.format(guard)]
     buf.append(new_lines, row)
+    vim.command('normal! 3j')
 
 def switch_hs():
     path = vim.current.buffer.name
     basepath, ext = os.path.splitext(path)
     new_ext = None
     if ext in ['.h', '.hpp']:
-        new_ext = '.cpp'
+        if os.path.exists('{}{}'.format(basepath, '.cc')):
+            new_ext = '.cc'
+        else:
+            new_ext = '.cpp'
     elif ext == '.cpp':
         if os.path.exists('{}{}'.format(basepath, '.h')):
             new_ext = '.h'
@@ -118,7 +121,6 @@ def create_definition():
     col = len(buf[row - 1]) - 1
     vim.current.window.cursor = (row, col)
 
-# TODO WIP, undo everything at once?
 def move_definition():
     buf, row, _ = get_current_context()
     ext = os.path.splitext(buf.name)[1]
@@ -127,6 +129,9 @@ def move_definition():
         eprint('No block found to move')
         return
 
+    if len(block) > 1:
+        del(block[0]) # don't need opening brace as it is created by create_definition anyway
+
     brace_pos = buf[start].find('{')
     delete_start = start
     if(brace_pos != 0):
@@ -134,12 +139,22 @@ def move_definition():
         delete_start += 1
 
     del buf[delete_start:end+1]
-    insert_len = end - start + 1
-    insert_row = len(buf)
-    buf.append(block)
-    vim.command(str(insert_row + 1))
-    vim.command('normal! V | {}j | = | \<ESC>'.format(insert_len - 1))
-    vim.command(str(insert_row + 1))
+    # save to savely switch file (in create_definition)
+    vim.command('w')
 
-#  if ext in ['.cc', '.cpp']:
-    # move definition from source to header
+    create_definition()
+    # switched file, so refresh context
+    buf, row, _ = get_current_context()
+    if len(block) > 1:
+        vim.command('normal! x')
+        # insert block and auto-align
+        buf.append(block, row)
+        vim.command(str(row + 1))
+        vim.command('normal! V | {}j | = | \<ESC>'.format(len(block) - 1))
+        vim.command(str(row + 1))
+    else:
+        # just append the one-lined block to the end of the signature (after deleting the braces from create_definition)
+        vim.command('normal! x')
+        vim.command('normal! x')
+        buf[row - 1] = buf[row - 1] + block[0]
+
