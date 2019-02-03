@@ -149,9 +149,8 @@ def move_definition():
         vim.command('normal! x')
         # insert block and auto-align
         buf.append(block, row)
-        vim.command(str(row + 1))
-        vim.command('normal! V | {}j | = | \<ESC>'.format(len(block) - 1))
-        vim.command(str(row + 1))
+        vim.command(str(row))
+        vim.command('normal! V | {0}j | = | V | {0}j'.format(len(block)))
     else:
         # just append the one-lined block to the end of the signature (after deleting the braces from create_definition)
         vim.command('normal! x')
