@@ -108,14 +108,21 @@ def create_definition():
     class_name = get_class_name()
 
     definition = declaration.strip()
-    definition = re.sub(r'virtual\s*', '', definition)
-    definition = re.sub(r'\s*override', '', definition)
-    definition = re.sub(r'\s*final', '', definition)
+
+    # keywords that have to be removed in cpp file
+    keyword_res = [r'virtual\s*', r'\s*override', r'\s*final', r'static\s*']
+    for kw in keyword_res:
+        definition = re.sub(kw, '', definition)
+    # remove default parameters
+    definition = re.sub(r'\s*=[^,\)]+', '', definition)
+
     definition = re.sub(r';', ' {}', definition)
     if class_name is not None:
         pos = get_func_name_pos(definition)
         definition = definition[:pos] + '{}::'.format(class_name) + definition[pos:]
     buf, _, _ = switch_hs()
+    if buf[-1].strip() != '':
+        buf.append('') # add newline before definition if not already present
     buf.append(definition)
     row = len(buf)
     col = len(buf[row - 1]) - 1
@@ -140,7 +147,7 @@ def move_definition():
 
     del buf[delete_start:end+1]
     # save to savely switch file (in create_definition)
-    vim.command('w')
+    vim.command('up')
 
     create_definition()
     # switched file, so refresh context
