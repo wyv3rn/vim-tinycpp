@@ -90,7 +90,7 @@ def switch_hs():
             new_ext = '.cc'
         else:
             new_ext = '.cpp'
-    elif ext == '.cpp':
+    elif ext in ['.cpp', '.cc']:
         if os.path.exists('{}{}'.format(basepath, '.h')):
             new_ext = '.h'
         else:
