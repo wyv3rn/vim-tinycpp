@@ -1,5 +1,5 @@
-if !has("python")
-    echo "vim has to be compiled with +python to run this"
+if !has("python") && !has("python3")
+    echo "vim has to be compiled with +python[3] to run this"
     finish
 endif
 
@@ -9,8 +9,19 @@ endif
 
 let s:plugin_root_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
+function! s:UsingPython3()
+  if has('python3')
+    return 1
+  endif
+  return 0
+endfunction
+
+let s:using_python3 = s:UsingPython3()
+let s:python_until_eof = s:using_python3 ? "python3 << EOF" : "python << EOF"
+let s:python_command = s:using_python3 ? "python3 " : "python "
+
 " setup python
-python << EOF
+exec s:python_until_eof
 import sys
 from os.path import normpath, join
 import vim
@@ -22,25 +33,25 @@ EOF
 
 " function for inserting include guard
 function! TcIncGuard()
-    python cpp.insert_include_guard()
+    exec s:python_command "cpp.insert_include_guard()"
 endfunction
 command! -nargs=0 TcIncGuard call TcIncGuard()
 
 " function for switching between header and source file
 function! TcSwitchHS()
-    python cpp.switch_hs()
+    exec s:python_command "cpp.switch_hs()"
 endfunction
 command! -nargs=0 TcSwitchHS call TcSwitchHS()
 
 " function for creating definition of function/method in source file
 function! TcCreateDef()
-    python cpp.create_definition()
+    exec s:python_command "cpp.create_definition()"
 endfunction
 command! -nargs=0 TcCreateDef call TcCreateDef()
 
 " function for creating definition of function/method in source file
 function! TcMoveDef()
-    python cpp.move_definition()
+    exec s:python_command "cpp.move_definition()"
 endfunction
 command! -nargs=0 TcMoveDef call TcMoveDef()
 
