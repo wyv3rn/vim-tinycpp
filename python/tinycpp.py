@@ -16,7 +16,11 @@ def get_class_name():
     buf, row, _ = get_current_context()
     brace_count = 0
     i = row - 1
+    comment_re = re.compile(r'\s*(//|/\*|\*/).*')
     while i >= 0:
+        if comment_re.match(buf[i]):
+            i -= 1
+            continue
         brace_count += buf[i].count('{')
         brace_count -= buf[i].count('}')
         if brace_count == 1:
@@ -42,9 +46,11 @@ def get_next_block():
     i = row - 1
     brace_count = 0
     start = -1
+    comment_re = re.compile(r'\s*(//|/\*|\*/).*')
     while i < len(buf):
         current_line = buf[i]
-        if current_line.count('{') == 1:
+        is_comment = (comment_re.match(current_line) is not None)
+        if current_line.count('{') == 1 and not is_comment:
             start = i
             current_line = current_line[current_line.find('{'):]
             if current_line.count('}') == 1:
@@ -52,8 +58,9 @@ def get_next_block():
                 return [current_line], i, i
         if start != -1:
             block.append(current_line)
-            brace_count += buf[i].count('{')
-            brace_count -= buf[i].count('}')
+            if not is_comment:
+                brace_count += buf[i].count('{')
+                brace_count -= buf[i].count('}')
         if start != -1 and brace_count == 0:
             return block, start, i
         i += 1
