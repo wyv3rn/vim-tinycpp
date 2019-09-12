@@ -20,7 +20,7 @@ TLDR: Use it by invoking commands (`:Tc...`); freely map those to your desire.
 * Add include guard to current buffer (`:TcIncGuard`)
 * Switch between header and source file (`:TcSwitchHS`)
 * Create definition for function/method declaration in source file (`:TcCreateDef`)
-* Move definition for function/method declaration from header to source file (`:TcMoveDef`) **Warning:** This saves the current buffer and jumps to the source file; if you want to be able to undo the changes in the header, you have to `set :hidden` or configure persistend undo for Vim
+* Move definition for function/method declaration from header to source file (`:TcMoveDef`) **Warning:** This saves the current buffer and jumps to the source file; if you want to be able to undo the changes in the header, you have to use `set hidden` or configure persistend undo for Vim
 
 Wow, that's really tiny ... (but hopefully some more functionalities will follow, see below)
 
